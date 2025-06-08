@@ -18,6 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,10 +49,17 @@ fun SignUpScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
-                    .background(DarkBrown),
-                contentAlignment = Alignment.Center
+                    .background(DarkBrown)
+                    .padding(top = 75.dp),
+                contentAlignment = Alignment.TopCenter
             ) {
-                Text(text = "Reservasi Gedung Serba Guna", color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    text = "Reservasi Gedung\nSerba Guna",
+                    color = Color.White,
+                    fontSize = 28.sp,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
+                )
             }
             Box(modifier = Modifier
                 .fillMaxWidth()
@@ -61,7 +69,8 @@ fun SignUpScreen(navController: NavController) {
 
         Card(
             modifier = Modifier
-                .align(Alignment.Center)
+                .align(Alignment.TopCenter)
+                .padding(top = 160.dp)
                 .fillMaxWidth(0.9f),
             shape = RoundedCornerShape(20.dp),
             colors = CardDefaults.cardColors(containerColor = CardBeige),

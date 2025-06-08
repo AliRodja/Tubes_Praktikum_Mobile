@@ -17,6 +17,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,14 +49,16 @@ fun LoginScreen(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f) // Bagian atas
-                    .background(DarkBrown),
-                contentAlignment = Alignment.Center
+                    .background(DarkBrown)
+                    .padding(top =75.dp), //posisi teks
+                contentAlignment = Alignment.TopCenter
             ) {
                 Text(
-                    text = "Reservasi Gedung Serba Guna",
+                    text = "Reservasi Gedung\nSerba Guna",
                     color = Color.White,
                     fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center
                 )
             }
             Box(
