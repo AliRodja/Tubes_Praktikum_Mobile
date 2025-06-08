@@ -5,12 +5,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tubespraktikummobile.ui.screens.login.LoginScreen
+import com.example.tubespraktikummobile.ui.screens.profile.ProfileScreen
 import com.example.tubespraktikummobile.ui.screens.signup.SignUpScreen
 
 // Definisikan rute untuk setiap layar agar tidak ada salah ketik
 sealed class Screen(val route: String) {
     object Login: Screen("login_screen")
     object SignUp: Screen("signup_screen")
+    object Profile : Screen("profile_screen")
 }
 
 @Composable
@@ -30,6 +32,11 @@ fun AppNavigation() {
 
         // Mendefinisikan layar sign up
         composable(route = Screen.SignUp.route) {
+            SignUpScreen(navController = navController)
+        }
+
+        // Mendefinisikan layar Profile
+        composable(route = Screen.Profile.route) {
             SignUpScreen(navController = navController)
         }
 
