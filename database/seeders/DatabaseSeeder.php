@@ -16,6 +16,13 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            "no_hp" => "081234567890",
+        ]);
+
+        $this->call([
+            VenueSeeder::class,
+            ReservationSeeder::class,
+            PaymentSeeder::class,
         ]);
     }
 }
