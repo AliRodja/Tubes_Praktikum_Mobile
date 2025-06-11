@@ -34,3 +34,19 @@ data class LoginResponse(
     val message: String?, // Jadikan nullable
     val token: String? // Jadikan nullable
 )
+
+@Serializable
+data class UserProfile(
+    val id: Int,
+    @SerialName("nama_pengguna")
+    val namaPengguna: String?,
+    val email: String?,
+    @SerialName("nomor_hp")
+    val nomorHp: String?
+)
+
+@Serializable
+data class ProfileResponse(
+    val status: String?,
+    val data: UserProfile?
+)

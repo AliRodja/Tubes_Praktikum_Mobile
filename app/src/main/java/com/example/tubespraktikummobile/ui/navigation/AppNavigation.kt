@@ -20,6 +20,7 @@ import com.example.tubespraktikummobile.ui.screens.home.HomeScreen
 import com.example.tubespraktikummobile.ui.screens.login.LoginScreen
 import com.example.tubespraktikummobile.ui.screens.signup.SignUpScreen
 import com.example.tubespraktikummobile.ui.screens.detail.DetailScreen
+import com.example.tubespraktikummobile.ui.screens.profile.ProfileScreen
 
 sealed class Screen(val route: String) {
     object Login: Screen("login_screen")
@@ -28,6 +29,7 @@ sealed class Screen(val route: String) {
     object Detail: Screen("detail/{gedungId}") {
         fun createRoute(gedungId: Int) = "detail/$gedungId"
     }
+    object Profile: Screen("profile_screen")
 }
 
 @Composable
@@ -68,6 +70,9 @@ fun AppNavigation(
                 arguments = listOf(navArgument("gedungId") { type = NavType.IntType })
             ) {
                 DetailScreen(navController = navController)
+            }
+            composable(route = Screen.Profile.route) {
+                ProfileScreen(navController = navController)
             }
         }
     }

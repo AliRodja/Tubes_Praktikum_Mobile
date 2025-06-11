@@ -37,9 +37,11 @@ fun HomeScreen(
             LoadingScreen()
         }
         is GedungUiState.Success -> {
+            // PERBAIKAN 1: Kirimkan perintah navigasi dari sini
             MainScreen(
                 navController = navController,
-                gedungList = uiState.gedungList ?: emptyList() // Memberi list kosong jika data null
+                gedungList = uiState.gedungList ?: emptyList(),
+                onProfileClick = { navController.navigate(Screen.Profile.route) }
             )
         }
         is GedungUiState.Error -> {
@@ -54,7 +56,8 @@ fun HomeScreen(
 @Composable
 fun MainScreen(
     navController: NavController,
-    gedungList: List<Gedung>
+    gedungList: List<Gedung>,
+    onProfileClick: () -> Unit // PERBAIKAN 2: Terima perintah navigasi
 ) {
     Scaffold(
         topBar = {
@@ -67,7 +70,8 @@ fun MainScreen(
             )
         },
         bottomBar = {
-            BottomNavigationBar()
+            // PERBAIKAN 3: Oper perintah navigasi ke BottomNavigationBar
+            BottomNavigationBar(onProfileClick = onProfileClick)
         }
     ) { paddingValues ->
         LazyColumn(
@@ -96,8 +100,7 @@ fun GedungCard(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                // Nanti kita akan aktifkan ini untuk ke halaman detail
-                 navController.navigate(Screen.Detail.createRoute(gedung.id))
+                navController.navigate(Screen.Detail.createRoute(gedung.id))
             },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
@@ -111,17 +114,14 @@ fun GedungCard(
                 contentScale = ContentScale.Crop
             )
             Column(modifier = Modifier.padding(16.dp)) {
-                // PENANGANAN NULL
                 Text(text = gedung.nama ?: "Nama Gedung Tidak Tersedia", fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 Spacer(modifier = Modifier.height(4.dp))
-                // PENANGANAN NULL
                 Text(text = gedung.lokasi ?: "Lokasi tidak diketahui", color = Color.Gray)
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // PENANGANAN NULL
                     val harga = gedung.hargaPerHari?.toInt() ?: 0
                     Text(text = "Rp $harga/hari", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.SemiBold)
 
@@ -132,7 +132,32 @@ fun GedungCard(
     }
 }
 
-// ... (Composable LoadingScreen, ErrorScreen, dan BottomNavigationBar tidak perlu diubah) ...
+@Composable
+fun BottomNavigationBar(onProfileClick: () -> Unit) { // PERBAIKAN 4: Terima perintah
+    val items = listOf(
+        BottomNavItem("Home", Icons.Default.Home),
+        BottomNavItem("Orders", Icons.Default.ShoppingCart),
+        BottomNavItem("Profile", Icons.Default.AccountCircle)
+    )
+    NavigationBar {
+        items.forEach { item ->
+            NavigationBarItem(
+                icon = { Icon(item.icon, contentDescription = item.title) },
+                label = { Text(item.title) },
+                selected = item.title == "Home",
+                onClick = {
+                    // PERBAIKAN 5: Jalankan perintah saat item Profile di-klik
+                    if (item.title == "Profile") {
+                        onProfileClick()
+                    }
+                    // TODO: Handle navigasi untuk item lainnya jika perlu
+                }
+            )
+        }
+    }
+}
+
+// ... (Composable LoadingScreen, ErrorScreen, dan data class BottomNavItem tidak perlu diubah) ...
 @Composable
 fun LoadingScreen() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -150,25 +175,6 @@ fun ErrorScreen(message: String, onRetry: () -> Unit) {
         Text(text = message, color = Color.Red, textAlign = TextAlign.Center)
         Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = onRetry) { Text("Coba Lagi") }
-    }
-}
-
-@Composable
-fun BottomNavigationBar() {
-    val items = listOf(
-        BottomNavItem("Home", Icons.Default.Home),
-        BottomNavItem("Orders", Icons.Default.ShoppingCart),
-        BottomNavItem("Profile", Icons.Default.AccountCircle)
-    )
-    NavigationBar {
-        items.forEach { item ->
-            NavigationBarItem(
-                icon = { Icon(item.icon, contentDescription = item.title) },
-                label = { Text(item.title) },
-                selected = item.title == "Home",
-                onClick = { /* TODO: Handle navigation */ }
-            )
-        }
     }
 }
 
