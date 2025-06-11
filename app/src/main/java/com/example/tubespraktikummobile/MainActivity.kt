@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.tubespraktikummobile.ui.theme.TubesPraktikumMobileTheme
-import com.example.tubespraktikummobile.ui.screens.home.HomeScreen
 import androidx.compose.material3.Surface
 import com.example.tubespraktikummobile.ui.screens.login.LoginScreen
 import com.example.tubespraktikummobile.ui.navigation.AppNavigation
@@ -29,7 +28,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation() // <-- CUKUP PANGGIL INI
+                    // Cukup panggil AppNavigation, sisanya akan diatur secara otomatis
+                    AppNavigation()
                 }
             }
         }
